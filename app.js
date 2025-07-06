@@ -102,7 +102,7 @@ app.use((req, res, next) => {
 // });
 
 
-// ROUTER USE HERE 
+//router use here
 app.use("/listings",  listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
