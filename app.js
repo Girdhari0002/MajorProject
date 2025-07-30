@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const    ejsMate  = require("ejs-mate");
+const Listing = require("./models/listing");
 const { nextTick } = require("process");
 const dbUrl = process.env.ATLASTDB_URL;
 
@@ -91,6 +92,22 @@ app.use((req, res, next) => {
   res.locals.currUser = req.user;
   next();
 });
+//  listing search route 
+
+app.get("/listings/search", async (req, res) => {
+  const { location } = req.query;
+  try {
+    const allListings = await Listing.find({
+      location: { $regex: new RegExp(location, "i") }
+    });
+    res.render("listings/index", { allListings });
+  } catch (err) {
+    console.log(err);
+    res.send("Error Occurred");
+  }
+});
+
+
 
 // app.get("/demouser", async (req, res) => {
 //     let fakeUser = new User({
